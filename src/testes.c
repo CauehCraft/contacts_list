@@ -3,13 +3,29 @@
 #include <string.h>
 
 char *decimal_para_binario(int numero_decimal);
+char *adiciona_zero_a_esquerda();
 
 int main(){
-    int i;
-    for (i = 0; i < 11; i++) {
+    char * numero_em_binario = decimal_para_binario(230);
+    int i, tamanho_string_binario = 0;
+    int diferenca;
+    /*for (i = 0; i < 11; i++) {
         printf("%d: %s\n", i, decimal_para_binario(i));
-        printf("String size: %d\n\n", (int)strlen(decimal_para_binario(i)));
+        tamanho_string_binario = (int)strlen(decimal_para_binario(i));
+    }*/
+    printf("Num 230 em binário: %s\n", decimal_para_binario(230));
+    tamanho_string_binario = (int)strlen(decimal_para_binario(230));
+    if(tamanho_string_binario < 11) {
+        diferenca = 11 - tamanho_string_binario;
+        numero_em_binario = (char *)realloc(numero_em_binario ,(tamanho_string_binario + 1 + diferenca) * sizeof(char));
     }
+    for (i = 0; i < diferenca; i++) {
+       strcat(numero_em_binario, "0");
+    }
+
+    printf("String reajustada: %s\n", numero_em_binario);
+    
+        
 
     return 0;
 }
