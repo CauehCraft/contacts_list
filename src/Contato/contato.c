@@ -42,10 +42,10 @@ ListaContatos* criarContato(const char* nome, const char* email, const char* tel
 }
 
 // Função para inserir um novo contato no início da lista
-void inserirContato(ListaContatos** lista, const char* nome, const char* email, const char* telefone) {
+ListaContatos* inserirContato(ListaContatos* lista, const char* nome, const char* email, const char* telefone) {
     ListaContatos* novoContato = criarContato(nome, email, telefone);
-    novoContato->next = *lista;
-    *lista = novoContato;
+    novoContato->next = lista;
+    return novoContato;
 }
 
 // Função para buscar um contato na lista pelo nome
@@ -88,7 +88,7 @@ void removerContato(ListaContatos** lista, const char* nome) {
 void imprimirListaContatos(ListaContatos* lista) {
     ListaContatos* atual = lista;
     while (atual != NULL) {
-        printf("Nome: %s\n", atual->info.nome);
+        printf("\nNome: %s\n", atual->info.nome);
         printf("Email: %s\n", atual->info.email);
         printf("Telefone: %s\n", atual->info.telefone);
         printf("-----------------------\n");
@@ -118,7 +118,7 @@ ListaContatos* importarContatos(ListaContatos *c_list){
 
     while (fgets(linha, TAM_LINHA, arquivo_origem) != NULL) { 
         sscanf(linha, " %[^;];%[^;];%[^;];", nome, email, telefone);
-        inserirContato(&new_list, nome, email, telefone);    
+        new_list = inserirContato(new_list, nome, email, telefone);    
     }
 
     fclose(arquivo_origem); // fecha o arquivo
@@ -163,5 +163,17 @@ void lst_ordena(ListaContatos *c_list) {
                 swapNodes(i, j);
             }
         }
+    }
+}
+
+void lst_libera(ListaContatos* c_list) {
+    ListaContatos* p = c_list;
+    while (p != NULL) {
+        /* guarda referência p/ próx. elemento */
+        ListaContatos* t = p->next;
+        /* libera memória apontada por p */
+        free(p);
+        /* faz p apontar para o próximo */
+        p = t;
     }
 }

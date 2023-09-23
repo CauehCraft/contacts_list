@@ -16,7 +16,7 @@ ListaContatos* iniciaLista(void);
 ListaContatos* criarContato(const char* nome, const char* email, const char* telefone);
 
 // Função para inserir um novo contato no início da lista
-void inserirContato(ListaContatos** lista, const char* nome, const char* email, const char* telefone);
+ListaContatos* inserirContato(ListaContatos* lista, const char* nome, const char* email, const char* telefone);
 
 // Função para buscar um contato na lista pelo nome
 ListaContatos* buscarContato(ListaContatos* lista, const char* nome);
@@ -38,5 +38,8 @@ void swapNodes(ListaContatos *c_list_1, ListaContatos *c_list_2);
 
 // Função que ordena a lista em ordem alfabetica
 void lst_ordena(ListaContatos *c_list);
+
+// Função que libera a memória alocada para a lista de contatos
+void lst_libera(ListaContatos* c_list);
 
 #endif

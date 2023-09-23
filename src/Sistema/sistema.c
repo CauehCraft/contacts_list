@@ -28,7 +28,7 @@ char le_opcao(char menorValor, char maiorValor) {
 }
 
 void menu(void) {
-    printf("--------- MENU ---------\n");
+    printf("\n--------- MENU ---------\n");
     printf("1. Criar Contato\n");
     printf("2. Excluir Contato\n");
     printf("3. Listar Contatos\n");
