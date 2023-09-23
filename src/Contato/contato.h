@@ -27,4 +27,6 @@ void removerContato(ListaContatos** lista, const char* nome);
 // Função para imprimir a lista de contatos
 void imprimirListaContatos(ListaContatos* lista);
 
+ListaContatos* importarContatos(ListaContatos *c_list);
+
 #endif

@@ -14,18 +14,15 @@ int main() {
     printf("Lista de Contatos:\n");
     imprimirListaContatos(lista);
 
-    ListaContatos* contatoBuscado = buscarContato(lista, "João");
-    if (contatoBuscado != NULL) {
-        printf("\nContato encontrado:\n");
-        printf("Nome: %s\n", contatoBuscado->info.nome);
-        printf("Email: %s\n", contatoBuscado->info.email);
-        printf("Telefone: %s\n", contatoBuscado->info.telefone);
-    } else {
-        printf("\nContato não encontrado.\n");
-    }
-
     removerContato(&lista, "Maria");
     printf("\nLista de Contatos após a remoção de 'Maria':\n");
+    imprimirListaContatos(lista);
+
+    lista = importarContatos(lista);
+
+    printf("\033[31m");
+    printf("\nLista de Contatos após importar de arquivo:\n");
+    printf("\033[0m");
     imprimirListaContatos(lista);
 
     return 0;

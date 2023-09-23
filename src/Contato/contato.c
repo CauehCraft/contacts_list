@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TAM_LINHA 100
+#define TAM_NOME 100
+#define TAM_EMAIL 100
+#define TAM_TELEFONE 16
+
 // Estrutura do tipo Contato
 struct contato {
     char nome[100];
@@ -89,4 +94,34 @@ void imprimirListaContatos(ListaContatos* lista) {
         printf("-----------------------\n");
         atual = atual->next;
     }
+}
+
+// Função importar contatos de um arquivo
+ListaContatos* importarContatos(ListaContatos *c_list){
+    FILE *arquivo_origem;
+    ListaContatos *new_list = c_list;
+    char linha[TAM_LINHA], nome[TAM_NOME], email[TAM_EMAIL], telefone[TAM_TELEFONE];
+
+    // lendo arquivo com as informacoes dos contatos salvos em arquivo
+    arquivo_origem = fopen("../dados/contatos.txt", "r");
+    if (arquivo_origem == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+
+    fseek(arquivo_origem, 0, SEEK_END); // posiciona o cursor no final do arquivo
+    if (ftell(arquivo_origem) == 0) { // verifica a posição atual do cursor
+        printf("Arquivo de contatos está vazio.\n");
+        return NULL;
+    }else{
+        rewind(arquivo_origem); // recoloca o cursor no inicio do arquivo
+    }
+
+    while (fgets(linha, TAM_LINHA, arquivo_origem) != NULL) { 
+        sscanf(linha, " %[^;];%[^;];%[^;];", nome, email, telefone);
+        inserirContato(&new_list, nome, email, telefone);    
+    }
+
+    fclose(arquivo_origem); // fecha o arquivo
+    return new_list;
 }
