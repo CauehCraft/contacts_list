@@ -27,6 +27,16 @@ void removerContato(ListaContatos** lista, const char* nome);
 // Função para imprimir a lista de contatos
 void imprimirListaContatos(ListaContatos* lista);
 
+// Função importar contatos de um arquivo
 ListaContatos* importarContatos(ListaContatos *c_list);
+
+// Função exportar contatos para arquivo
+void exportarContatos(ListaContatos* c_list);
+
+// Função que troca os valores de dois nós
+void swapNodes(ListaContatos *c_list_1, ListaContatos *c_list_2);
+
+// Função que ordena a lista em ordem alfabetica
+void lst_ordena(ListaContatos *c_list);
 
 #endif

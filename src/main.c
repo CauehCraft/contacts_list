@@ -10,20 +10,15 @@ int main() {
 
     inserirContato(&lista, "João", "joao@example.com", "123456789");
     inserirContato(&lista, "Maria", "maria@example.com", "987654321");
-
-    printf("Lista de Contatos:\n");
-    imprimirListaContatos(lista);
-
-    removerContato(&lista, "Maria");
-    printf("\nLista de Contatos após a remoção de 'Maria':\n");
-    imprimirListaContatos(lista);
-
-    lista = importarContatos(lista);
+    inserirContato(&lista, "Julia", "julia@example.com", "7777777777");
+    inserirContato(&lista, "Ana Silva", "ana.silva@email.com", "1234567890");
 
     printf("\033[31m");
-    printf("\nLista de Contatos após importar de arquivo:\n");
+    printf("Lista de Contatos:\n");
     printf("\033[0m");
     imprimirListaContatos(lista);
+    
+    exportarContatos(lista);
 
     return 0;
 }

@@ -96,7 +96,6 @@ void imprimirListaContatos(ListaContatos* lista) {
     }
 }
 
-// Função importar contatos de um arquivo
 ListaContatos* importarContatos(ListaContatos *c_list){
     FILE *arquivo_origem;
     ListaContatos *new_list = c_list;
@@ -124,4 +123,45 @@ ListaContatos* importarContatos(ListaContatos *c_list){
 
     fclose(arquivo_origem); // fecha o arquivo
     return new_list;
+}
+
+// Função exportar contatos para arquivo
+void exportarContatos(ListaContatos* c_list) {
+    ListaContatos* p; /* variável auxiliar para percorrer a lista */
+    FILE *arquivo;
+    arquivo = fopen("../dados/contatos.txt", "w"); // Abre o arquivo para escrita
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    lst_ordena(c_list);   
+    for (p = c_list; p != NULL; p = p->next) {
+        fprintf(arquivo, "%s;", p->info.nome); // nome
+        fprintf(arquivo, "%s;", p->info.email); // e-mail
+        fprintf(arquivo, "%s;\n", p->info.telefone); // telefone
+    }
+    
+    fclose(arquivo); // Fecha o arquivo
+    printf("Arquivo contatos.txt atualizado com sucesso!\n");
+}
+
+void swapNodes(ListaContatos *c_list_1, ListaContatos *c_list_2) {
+    Contato temp = c_list_1->info;
+    c_list_1->info = c_list_2->info;
+    c_list_2->info = temp;
+}
+
+void lst_ordena(ListaContatos *c_list) {
+    ListaContatos *i;
+    ListaContatos *j;
+    // ordena os nomes usando bubble sort
+    for (i = c_list; i != NULL; i = i->next) {
+        for (j = i->next; j != NULL; j = j->next) {
+            if (strcmp(i->info.nome, j->info.nome) > 0) {
+                swapNodes(i, j);
+            }
+        }
+    }
 }

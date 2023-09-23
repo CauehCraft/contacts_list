@@ -1,5 +1,4 @@
-Ana Silva;ana.silva@email.com;(123) 456-7890;
-Pedro Santos;pedro.santos@email.com;(987) 654-3210;
-Maria Oliveira;maria.oliveira@email.com;(555) 123-4567;
-João Pereira;joao.pereira@email.com;(777) 888-9999;
-Sofia Lima;sofia.lima@email.com;(444) 333-2222;
+Ana Silva;ana.silva@email.com;1234567890;
+João;joao@example.com;123456789;
+Julia;julia@example.com;7777777777;
+Maria;maria@example.com;987654321;
