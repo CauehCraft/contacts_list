@@ -9,12 +9,12 @@ unsigned long long int int_to_bin(unsigned long long int k){
 
 int hash(char* num){
     int soma = 0;
-    char* binchar = (char*) malloc(128*sizeof(char));
+    char* binchar = (char*) malloc(32*sizeof(char));
     for(int i = 0; i<strlen(num); i++){
         soma+= (num[i]-'0');
     }
     
-    long long int q = soma*soma;
+    int q = soma*soma;
     long long int numbin = int_to_bin(q);
     printf("S e Q: %d %lli\t", soma, q);
 
@@ -36,7 +36,7 @@ int hash(char* num){
 }
 
 
-// 
+/*
 int main(){
     int i, n;
     char* tele = (char*) malloc(128*sizeof(char));
@@ -56,3 +56,4 @@ int main(){
 
     //printf("Hash: %d\tNumero: %s\n", hash(tele0), tele0);
 }
+*/
