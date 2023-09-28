@@ -14,26 +14,8 @@ void limpa_buffer(void);
 // Lê e valida a opção digitada pelo usuário
 char le_opcao(char menorValor, char maiorValor);
 
-// corrige o nome
-void corrige_nome(char nome[]);
-
 // Exibe o menu
 void menu(void);
-
-// Imprime em verde
-void print_green(char *text);
-
-// Imprime em amarelo
-void print_yellow(char *text);
-
-// Imprime em vermelho
-void print_red(char *text);
-
-// verificação do numero
-int verifica_numero_telefone(const char numero[]);
-
-// verificação do email
-int verifica_email(const char email[]);
 
 // formatação do numero
 void formata_numero_telefone(char numero[]);
