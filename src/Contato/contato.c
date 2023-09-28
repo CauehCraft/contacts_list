@@ -7,6 +7,7 @@
 #define TAM_NOME 100
 #define TAM_EMAIL 100
 #define TAM_TELEFONE 16
+#define MAX_CONTATOS 32
 
 // Estrutura do tipo Contato
 struct contato {
@@ -15,165 +16,63 @@ struct contato {
     char telefone[16];
 };
 
-// Definição da estrutura do Contato
-struct listacontatos {
-    Contato info;
-    int key;
-    struct listacontatos* next;
-} ;
-
-// Inicializa a Lista de Contatos
-ListaContatos* iniciaLista(void) {
-    return NULL;
-}
-
 // Função para criar um novo contato
-ListaContatos* criarContato(const char* nome, const char* email, const char* telefone) {
-    ListaContatos* novoContato = (ListaContatos*)malloc(sizeof(ListaContatos));
-    if (novoContato == NULL) {
-        printf("Erro ao alocar memória para o novo contato.\n");
-        exit(1);
-    }
-    strcpy(novoContato->info.nome, nome);
-    strcpy(novoContato->info.email, email);
-    strcpy(novoContato->info.telefone, telefone);
-    novoContato->next = NULL;
-    return novoContato;
-}
+Contato* criarContato(const char* nome, const char* email, const char* telefone) {
+    Contato *novo_contato = (Contato*)malloc(sizeof(Contato));
+    strcpy(novo_contato->nome, nome);
+    strcpy(novo_contato->email, email);
+    strcpy(novo_contato->telefone, telefone);
 
-// Função para inserir um novo contato no início da lista
-ListaContatos* inserirContato(ListaContatos* lista, const char* nome, const char* email, const char* telefone) {
-    ListaContatos* novoContato = criarContato(nome, email, telefone);
-    novoContato->next = lista;
-    return novoContato;
+    return novo_contato;
 }
 
 // Função para buscar um contato na lista pelo nome
-ListaContatos* buscarContato(ListaContatos* lista, const char* nome) {
-    ListaContatos* atual = lista;
-    while (atual != NULL) {
-        if (strcmp(atual->info.nome, nome) == 0) {
-            return atual;
-        }
-        atual = atual->next;
+Contato* buscarContato(Contato** lista_contatos, const char* nome) {
+    int i;
+    
+    for (int i = 0; i < MAX_CONTATOS; i++) {
+        if (lista_contatos[i] != NULL)
+            if (strcmp(lista_contatos[i]->nome, nome) == 0)
+                return lista_contatos[i];
     }
+    
     return NULL; // Contato não encontrado
 }
 
-// Função para remover um contato da lista pelo nome
-void removerContato(ListaContatos** lista, const char* nome) {
-    ListaContatos* atual = *lista;
-    ListaContatos* anterior = NULL;
-
-    while (atual != NULL && strcmp(atual->info.nome, nome) != 0) {
-        anterior = atual;
-        atual = atual->next;
+// Função para remover um contato da lista
+void apagarContato(Contato** lista_contatos, int indice) {
+    if (lista_contatos[indice] != NULL) {
+        free(lista_contatos[indice]);
+        lista_contatos[indice] = NULL;
     }
+}
 
-    if (atual == NULL) {
-        printf("Contato com o nome '%s' não encontrado na lista.\n", nome);
-        return;
-    }
-
-    if (anterior == NULL) {
-        *lista = atual->next;
-    } else {
-        anterior->next = atual->next;
-    }
-
-    free(atual);
+// Função para imprimir um contato específico
+void imprimirContato(Contato* contato) {
+    printf("\n-----------------------\n");
+    printf("Nome: %s\n", contato->nome);
+    printf("Email: %s\n", contato->email);
+    printf("Telefone: %s\n", contato->telefone);
+    printf("-----------------------\n");
 }
 
 // Função para imprimir a lista de contatos
-void imprimirListaContatos(ListaContatos* lista) {
-    ListaContatos* atual = lista;
-    while (atual != NULL) {
-        printf("\nNome: %s\n", atual->info.nome);
-        printf("Email: %s\n", atual->info.email);
-        printf("Telefone: %s\n", atual->info.telefone);
-        printf("-----------------------\n");
-        atual = atual->next;
-    }
-}
-
-ListaContatos* importarContatos(ListaContatos *c_list){
-    FILE *arquivo_origem;
-    ListaContatos *new_list = c_list;
-    char linha[TAM_LINHA], nome[TAM_NOME], email[TAM_EMAIL], telefone[TAM_TELEFONE];
-
-    // lendo arquivo com as informacoes dos contatos salvos em arquivo
-    arquivo_origem = fopen("../dados/contatos.txt", "r");
-    if (arquivo_origem == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-        exit(1);
+void imprimirListaContatos(Contato** lista_contatos) {
+    if (lista_contatos == NULL) {
+        printf("A lista de contatos é nula.\n");
+        return;
     }
 
-    fseek(arquivo_origem, 0, SEEK_END); // posiciona o cursor no final do arquivo
-    if (ftell(arquivo_origem) == 0) { // verifica a posição atual do cursor
-        printf("Arquivo de contatos está vazio.\n");
-        return NULL;
-    }else{
-        rewind(arquivo_origem); // recoloca o cursor no inicio do arquivo
-    }
-
-    while (fgets(linha, TAM_LINHA, arquivo_origem) != NULL) { 
-        sscanf(linha, " %[^;];%[^;];%[^;];", nome, email, telefone);
-        new_list = inserirContato(new_list, nome, email, telefone);    
-    }
-
-    fclose(arquivo_origem); // fecha o arquivo
-    return new_list;
-}
-
-// Função exportar contatos para arquivo
-void exportarContatos(ListaContatos* c_list) {
-    ListaContatos* p; /* variável auxiliar para percorrer a lista */
-    FILE *arquivo;
-    arquivo = fopen("../dados/contatos.txt", "w"); // Abre o arquivo para escrita
-
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
-        exit(1);
-    }
-
-    lst_ordena(c_list);   
-    for (p = c_list; p != NULL; p = p->next) {
-        fprintf(arquivo, "%s;", p->info.nome); // nome
-        fprintf(arquivo, "%s;", p->info.email); // e-mail
-        fprintf(arquivo, "%s;\n", p->info.telefone); // telefone
-    }
-    
-    fclose(arquivo); // Fecha o arquivo
-    printf("Arquivo contatos.txt atualizado com sucesso!\n");
-}
-
-void swapNodes(ListaContatos *c_list_1, ListaContatos *c_list_2) {
-    Contato temp = c_list_1->info;
-    c_list_1->info = c_list_2->info;
-    c_list_2->info = temp;
-}
-
-void lst_ordena(ListaContatos *c_list) {
-    ListaContatos *i;
-    ListaContatos *j;
-    // ordena os nomes usando bubble sort
-    for (i = c_list; i != NULL; i = i->next) {
-        for (j = i->next; j != NULL; j = j->next) {
-            if (strcmp(i->info.nome, j->info.nome) > 0) {
-                swapNodes(i, j);
-            }
+    for (int i = 0; i < MAX_CONTATOS; i++) {
+        if (lista_contatos[i] != NULL) {
+            imprimirContato(lista_contatos[i]);
         }
     }
 }
 
-void lst_libera(ListaContatos* c_list) {
-    ListaContatos* p = c_list;
-    while (p != NULL) {
-        /* guarda referência p/ próx. elemento */
-        ListaContatos* t = p->next;
-        /* libera memória apontada por p */
-        free(p);
-        /* faz p apontar para o próximo */
-        p = t;
-    }
+// Liberar a memória alocada para a lista de contatos
+void liberarMemoriaListaContatos(Contato** lista_contatos) {
+    for (int i = 0; i < MAX_CONTATOS; i++)
+        if (lista_contatos[i] != NULL)
+            apagarContato(lista_contatos, i);  
 }
