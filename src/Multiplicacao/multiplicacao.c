@@ -14,13 +14,13 @@ int hash(char* num){
         soma+= (num[i]-'0');
     }
     
-    long long int q = soma*soma;
+    int q = soma*soma;
     long long int numbin = int_to_bin(q);
-    // printf("S e Q: %d %lli\t", soma, q);
+    printf("S e Q: %d %lli\t", soma, q);
 
     int ii=0;
     sprintf(binchar, "%lli", numbin);
-    // printf("Original: %s\t", binchar);
+    printf("Original: %s\t", binchar);
     while(strlen(binchar)>5){
         if(ii%2==0){
             binchar[strlen(binchar)-1] = '\0';
