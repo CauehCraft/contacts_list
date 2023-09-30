@@ -9,4 +9,7 @@ unsigned long long int int_to_bin(unsigned long long int k);
 // Função Hash que retorna o indice.
 int hash(char* num);
 
+// Função para formatar um número.
+void formatarNumero(const char *string_telefone, char *numero_formatado);
+
 #endif 

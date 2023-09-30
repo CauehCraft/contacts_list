@@ -1,12 +1,11 @@
 #include "Contato/contato.c"
 #include "Sistema/sistema.c"
-#include "Multiplicacao/multiplicacao.c"
 
 void solicitarEInserirContato(Contato **lista);
 
 int main() {
-    Contato* lista[MAX_CONTATOS];
-    Contato* contatoBuscado = NULL;
+    Contato *lista[MAX_CONTATOS];
+    Contato *contatoBuscado = NULL;
     char opcao;
     char nome[TAM_NOME];
 
@@ -14,9 +13,11 @@ int main() {
     for (int i = 0; i < MAX_CONTATOS; i++) {
         lista[i] = NULL;
     }
-    
+
+    importarContatos(lista); // importando os contados armazenados
+
     do {
-        menu(); // chama o menu
+        menu();                     // chama o menu
         opcao = le_opcao('1', '5'); // funcao que lê a opcao do usuário de acordo com o menu
 
         switch (opcao) {
@@ -27,12 +28,13 @@ int main() {
             printf("\nDigite o nome do contato que deseja excluir: ");
             scanf(" %[^\n]", nome);
             contatoBuscado = buscarContato(lista, nome);
-                if (contatoBuscado != NULL) {
-                    apagarContato(lista, hash(contatoBuscado->telefone));
-                    printf("Contato excluido com sucesso!\n");
-                } else {
-                    printf("\nContato não encontrado!\n");
-                }
+            if (contatoBuscado != NULL) {
+                apagarContato(lista, hash(contatoBuscado->telefone));
+                printf("Contato excluido com sucesso!\n");
+            }
+            else {
+                printf("\nContato não encontrado!\n");
+            }
             break;
         case '3': // lista contatos
             printf("------------LISTA DE CONTATOS------------\n");
@@ -42,21 +44,22 @@ int main() {
             printf("Digite o nome do contato que deseja buscar: ");
             scanf(" %[^\n]", nome);
             contatoBuscado = buscarContato(lista, nome);
-                if (contatoBuscado != NULL) {
-                    imprimirContato(contatoBuscado);
-                } else {
-                    printf("\nContato não encontrado!\n");
-                }
+            if (contatoBuscado != NULL) {
+                imprimirContato(contatoBuscado);
+            }
+            else {
+                printf("\nContato não encontrado!\n");
+            }
             break;
         case '5': // SAIR do programa
-            //exportarContatos(lista); // salva os contatos em arquivo antes de fechar o programa
+            exportarContatos(lista); // salva os contatos em arquivo antes de fechar o programa
             liberarMemoriaListaContatos(lista);
             printf("Encerrando o programa...\n");
             break;
         default:
             printf("Opcao invalida!\n");
             break;
-        }  
+        }
     } while (opcao != '5');
 
     return 0;
@@ -68,23 +71,26 @@ void solicitarEInserirContato(Contato **lista) {
     char email[TAM_EMAIL];
     char telefone[TAM_TELEFONE];
     int hash_novo_contato;
+    char numero_formatado[TAM_TELEFONE];
 
     printf("Digite o nome do contato: ");
     scanf(" %[^\n]", nome);
 
-    printf("Digite o email do contato: ");
+    printf("Digite o email: ");
     scanf(" %[^\n]", email);
 
-    printf("Digite o telefone do contato: ");
+    printf("Digite o telefone: ");
     scanf(" %[^\n]", telefone);
-
-    hash_novo_contato = hash(telefone);
+    
+    formatarNumero(telefone, numero_formatado);
+    hash_novo_contato = hash(numero_formatado);
+    
     printf("Hash gerado: %d\n", hash_novo_contato);
     if (lista[hash_novo_contato] == NULL) {
         lista[hash_novo_contato] = criarContato(nome, email, telefone);
         printf("Contato adicionado com sucesso!\n\n");
-    } else {
+    }
+    else {
         printf("Número já existente!\n");
     }
 }
-

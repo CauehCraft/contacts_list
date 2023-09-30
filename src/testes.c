@@ -1,4 +1,4 @@
-#include "Contato/contatocopy.c"
+#include "Contato/contato.c"
 #include "Sistema/sistema.c"
 #include <stdio.h>
 #include <stdlib.h>
