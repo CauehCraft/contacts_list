@@ -17,7 +17,4 @@ char le_opcao(char menorValor, char maiorValor);
 // Exibe o menu
 void menu(void);
 
-// formatação do numero
-void formata_numero_telefone(char numero[]);
-
 #endif // SISTEMA_H

@@ -24,4 +24,10 @@ void imprimirListaContatos(Contato** lista_contatos);
 // Liberar a memória alocada para a lista de contatos
 void liberarMemoriaListaContatos(Contato** lista_contatos);
 
+// Função importar contatos de um arquivo
+void importarContatos(Contato** lista_contatos);
+
+// Função exportar contatos para arquivo
+void exportarContatos(Contato** lista_contatos);
+
 #endif

@@ -1,4 +1,4 @@
-Ana Silva;ana.silva@email.com;1234567890;
-Caueh O.;caueh@email.com;1234567890;
-Dayvison Silva;dayvison@email.com;998665632;
-Julia;julia@example.com;7777777777;
+Luiz Gonzaga;l.gonzaga@email.com;(84)99952-1234;
+Geralt de Rivia;geraldao@email.com;1233-7777;
+Dayvison Silva;dayvison.silva@gmail.com;998665632;
+Kratos Bom de Guerra;kleitao@hermes.com;90901-9089;

@@ -1,4 +1,5 @@
 #include "contato.h"
+#include "../Multiplicacao/multiplicacao.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +7,7 @@
 #define TAM_LINHA 100
 #define TAM_NOME 100
 #define TAM_EMAIL 100
-#define TAM_TELEFONE 16
+#define TAM_TELEFONE 20
 #define MAX_CONTATOS 32
 
 // Estrutura do tipo Contato
@@ -75,4 +76,60 @@ void liberarMemoriaListaContatos(Contato** lista_contatos) {
     for (int i = 0; i < MAX_CONTATOS; i++)
         if (lista_contatos[i] != NULL)
             apagarContato(lista_contatos, i);  
+}
+
+
+// Função importar contatos de um arquivo
+void importarContatos(Contato** lista_contatos){
+    FILE *arquivo_origem;
+    int hash_numero;
+    char numero_formatado[TAM_TELEFONE];
+    char linha[TAM_LINHA], nome[TAM_NOME], email[TAM_EMAIL], telefone[TAM_TELEFONE];
+
+    // lendo arquivo com as informacoes dos contatos salvos em arquivo
+    arquivo_origem = fopen("../dados/contatos.txt", "r");
+    if (arquivo_origem == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+
+    fseek(arquivo_origem, 0, SEEK_END); // posiciona o cursor no final do arquivo
+    if (ftell(arquivo_origem) == 0) { // verifica a posição atual do cursor
+        printf("Arquivo de contatos está vazio.\n");
+        return;
+    }else{
+        rewind(arquivo_origem); // recoloca o cursor no inicio do arquivo
+    }
+
+    while (fgets(linha, TAM_LINHA, arquivo_origem) != NULL) { 
+        sscanf(linha, " %[^;];%[^;];%[^;];", nome, email, telefone);
+        formatarNumero(telefone, numero_formatado);
+        hash_numero = hash(numero_formatado);
+        lista_contatos[hash_numero] = criarContato(nome, email, telefone);    
+    }
+
+    fclose(arquivo_origem); // fecha o arquivo
+}
+
+// Função exportar contatos para arquivo
+void exportarContatos(Contato** lista_contatos) {
+    int i;
+    FILE *arquivo;
+    arquivo = fopen("../dados/contatos.txt", "w"); // Abre o arquivo para escrita
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+   
+    for (int i = 0; i < MAX_CONTATOS; i++) {
+        if (lista_contatos[i] != NULL) {
+            fprintf(arquivo, "%s;", lista_contatos[i]->nome); // nome
+            fprintf(arquivo, "%s;", lista_contatos[i]->email); // e-mail
+            fprintf(arquivo, "%s;\n", lista_contatos[i]->telefone); // telefone
+        }
+    }
+    
+    fclose(arquivo); // Fecha o arquivo
+    printf("Arquivo atualizado com sucesso!\n");
 }

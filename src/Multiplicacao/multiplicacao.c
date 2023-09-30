@@ -14,13 +14,13 @@ int hash(char* num){
         soma+= (num[i]-'0');
     }
     
-    int q = soma*soma;
+    long long int q = soma*soma;
     long long int numbin = int_to_bin(q);
-    printf("S e Q: %d %lli\t", soma, q);
+    // printf("S e Q: %d %lli\t", soma, q);
 
     int ii=0;
     sprintf(binchar, "%lli", numbin);
-    printf("Original: %s\t", binchar);
+    // printf("Original: %s\t", binchar);
     while(strlen(binchar)>5){
         if(ii%2==0){
             binchar[strlen(binchar)-1] = '\0';
@@ -35,25 +35,21 @@ int hash(char* num){
     return hashr;
 }
 
+void formatarNumero(const char *string_telefone, char *numero_formatado) {
+    int comprimento = strlen(string_telefone);
+    int numero_encontrado = 0;
 
-/*
-int main(){
-    int i, n;
-    char* tele = (char*) malloc(128*sizeof(char));
-    time_t t;
-    
-    n = 20;
-    
-    srand((unsigned) time(&t));
-    
-    for( i = 0 ; i < n ; i++ ) {
-        sprintf(tele, "%li", rand() % 9999999999999);
-        printf("- Hash: %d\tNumero: %s\n", hash(tele), tele);
+    if (string_telefone == NULL || numero_formatado == NULL || comprimento <= 0) {
+        // Tratamento de erro, se necessário
+        return;
     }
 
-    //char* tele0 = sprintf("%d", rand() % 9999999999999);
-    char* tele1 = "5584996861005";
-
-    //printf("Hash: %d\tNumero: %s\n", hash(tele0), tele0);
+    for (int i = 0; i < comprimento; i++) {
+        // Verifica se o caractere atual é um número
+        if (string_telefone[i] >= '0' && string_telefone[i] <= '9') {
+            numero_formatado[numero_encontrado++] = string_telefone[i];
+        }
+    }
+    numero_formatado[numero_encontrado]='\0'; 
 }
-*/
+
