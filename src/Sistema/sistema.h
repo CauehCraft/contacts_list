@@ -8,6 +8,9 @@
 #include <string.h>
 #include <ctype.h>
 
+// definindo Contato para evitar erros de tipo desconhecido
+typedef struct contato Contato;
+
 // Lê e descarta caracteres encontrados na entrada
 void limpa_buffer(void);
 
@@ -16,5 +19,8 @@ char le_opcao(char menorValor, char maiorValor);
 
 // Exibe o menu
 void menu(void);
+
+// Função para solicitar detalhes do contato ao usuário e inseri-lo na lista
+void solicitarEInserirContato(Contato **lista);
 
 #endif // SISTEMA_H

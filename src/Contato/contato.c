@@ -105,7 +105,24 @@ void importarContatos(Contato** lista_contatos){
         sscanf(linha, " %[^;];%[^;];%[^;];", nome, email, telefone);
         formatarNumero(telefone, numero_formatado);
         hash_numero = hash(numero_formatado);
-        lista_contatos[hash_numero] = criarContato(nome, email, telefone);    
+
+        int tentativa = 0;
+        int posicao = hash_numero;
+
+        while (lista_contatos[posicao] != NULL && tentativa < MAX_CONTATOS) {
+            tentativa++;
+            //printf("Colisão no índice %d\n", posicao == 0 ? hash_numero : posicao);
+            posicao = (hash_numero + tentativa * tentativa) % MAX_CONTATOS;
+            //printf("Tentativa %d, nova posição: %d\n", tentativa, posicao);
+        }
+
+        if (lista_contatos[posicao] == NULL) {
+            lista_contatos[posicao] = criarContato(nome, email, telefone);
+            //printf("Contato adicionado com sucesso!\n\n");
+        }
+        else {
+            printf("Erro ao importar contatos!\n");
+        }  
     }
 
     fclose(arquivo_origem); // fecha o arquivo

@@ -1,7 +1,6 @@
 #include "Contato/contato.c"
 #include "Sistema/sistema.c"
 
-void solicitarEInserirContato(Contato **lista);
 
 int main() {
     Contato *lista[MAX_CONTATOS];
@@ -65,32 +64,3 @@ int main() {
     return 0;
 }
 
-// Função para solicitar detalhes do contato ao usuário e inseri-lo na lista
-void solicitarEInserirContato(Contato **lista) {
-    char nome[TAM_NOME];
-    char email[TAM_EMAIL];
-    char telefone[TAM_TELEFONE];
-    int hash_novo_contato;
-    char numero_formatado[TAM_TELEFONE];
-
-    printf("Digite o nome do contato: ");
-    scanf(" %[^\n]", nome);
-
-    printf("Digite o email: ");
-    scanf(" %[^\n]", email);
-
-    printf("Digite o telefone: ");
-    scanf(" %[^\n]", telefone);
-    
-    formatarNumero(telefone, numero_formatado);
-    hash_novo_contato = hash(numero_formatado);
-    
-    printf("Hash gerado: %d\n", hash_novo_contato);
-    if (lista[hash_novo_contato] == NULL) {
-        lista[hash_novo_contato] = criarContato(nome, email, telefone);
-        printf("Contato adicionado com sucesso!\n\n");
-    }
-    else {
-        printf("Número já existente!\n");
-    }
-}
