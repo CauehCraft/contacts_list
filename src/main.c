@@ -28,7 +28,7 @@ int main() {
             scanf(" %[^\n]", nome);
             contatoBuscado = buscarContato(lista, nome);
             if (contatoBuscado != NULL) {
-                apagarContato(lista, hash(contatoBuscado->telefone));
+                apagarContato(lista, hash(contatoBuscado->telefone), nome);
                 printf("Contato excluido com sucesso!\n");
             }
             else {

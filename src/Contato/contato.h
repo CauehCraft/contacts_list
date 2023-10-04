@@ -13,7 +13,7 @@ Contato* criarContato(const char* nome, const char* email, const char* telefone)
 Contato* buscarContato(Contato** lista_contatos, const char* nome) ;
 
 // Função para remover um contato da lista pelo nome
-void apagarContato(Contato** lista_contatos, int indice);
+void apagarContato(Contato** lista_contatos, int indice, char* nome);
 
 // Função para imprimir um contato específico
 void imprimirContato(Contato* contato);

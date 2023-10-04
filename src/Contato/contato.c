@@ -29,8 +29,6 @@ Contato* criarContato(const char* nome, const char* email, const char* telefone)
 
 // Função para buscar um contato na lista pelo nome
 Contato* buscarContato(Contato** lista_contatos, const char* nome) {
-    int i;
-    
     for (int i = 0; i < MAX_CONTATOS; i++) {
         if (lista_contatos[i] != NULL)
             if (strcmp(lista_contatos[i]->nome, nome) == 0)
@@ -41,11 +39,17 @@ Contato* buscarContato(Contato** lista_contatos, const char* nome) {
 }
 
 // Função para remover um contato da lista
-void apagarContato(Contato** lista_contatos, int indice) {
-    if (lista_contatos[indice] != NULL) {
-        free(lista_contatos[indice]);
-        lista_contatos[indice] = NULL;
+void apagarContato(Contato** lista_contatos, int hash, char* nome) {
+    int indice;
+    for(int i = 0; i<MAX_CONTATOS; i++){
+        if (lista_contatos[indice] != NULL && strcmp(lista_contatos[indice]->nome, nome) == 0) {
+            free(lista_contatos[indice]);
+            lista_contatos[indice] = NULL;
+            break;
+        }
+        indice = hash + i*i;
     }
+    
 }
 
 // Função para imprimir um contato específico
@@ -75,7 +79,7 @@ void imprimirListaContatos(Contato** lista_contatos) {
 void liberarMemoriaListaContatos(Contato** lista_contatos) {
     for (int i = 0; i < MAX_CONTATOS; i++)
         if (lista_contatos[i] != NULL)
-            apagarContato(lista_contatos, i);  
+            apagarContato(lista_contatos, i, lista_contatos[i]->nome);  
 }
 
 
@@ -130,7 +134,6 @@ void importarContatos(Contato** lista_contatos){
 
 // Função exportar contatos para arquivo
 void exportarContatos(Contato** lista_contatos) {
-    int i;
     FILE *arquivo;
     arquivo = fopen("../dados/contatos.txt", "w"); // Abre o arquivo para escrita
 
